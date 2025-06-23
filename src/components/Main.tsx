@@ -6,6 +6,7 @@ interface MainProps {
   searchKey: string;
 }
 
+// eslint-disable-next-line react/prop-types
 const Main: React.FC<MainProps> = ({ searchKey }) => {
   return (
     <main
@@ -17,7 +18,9 @@ const Main: React.FC<MainProps> = ({ searchKey }) => {
     >
       <div className="py-4 px-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">Sprint 127</h2>
+          <h2 className="text-xl font-semibold">
+            Jonathan {new Date().toLocaleString()}
+          </h2>
           <button className="flex items-center rounded-md px-3 py-1.5 text-sm transition-colors">
             <span className="mr-1">Customize</span>
             <svg
