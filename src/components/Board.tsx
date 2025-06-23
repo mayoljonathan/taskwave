@@ -380,12 +380,39 @@ const Board: React.FC<BoardProps> = ({ searchKey }) => {
     );
   };
 
+  const handleSortByDate = (listId: string, updatedCards: CardType[]) => {
+    setLists((prevLists) =>
+      prevLists.map((list) =>
+        list.id === listId ? { ...list, cards: updatedCards } : list,
+      ),
+    );
+  };
+
   useEffect(() => {
     console.log('Updated lists:', lists);
   }, [lists]);
 
   const filteredLists = React.useMemo(() => {
-    return lists;
+    return lists.reduce(
+      (acc, curr) => {
+        const filteredCards = curr.cards.filter(
+          (item) =>
+            item.title.toLowerCase().includes(searchKey.toLowerCase()) ||
+            item.description.toLowerCase().includes(searchKey.toLowerCase()),
+        );
+
+        if (!filteredCards.length) return acc;
+
+        return [
+          ...acc,
+          {
+            ...curr,
+            cards: filteredCards,
+          },
+        ];
+      },
+      [] as typeof lists,
+    );
   }, [lists, searchKey]);
 
   return (
@@ -412,6 +439,7 @@ const Board: React.FC<BoardProps> = ({ searchKey }) => {
                         onCardClick={handleCardClick}
                         onEditListTitle={handleEditListTitle}
                         onRemoveList={handleRemoveList}
+                        onSortByDate={handleSortByDate}
                         onSortByTitle={handleSortByTitle}
                       />
                     </div>
